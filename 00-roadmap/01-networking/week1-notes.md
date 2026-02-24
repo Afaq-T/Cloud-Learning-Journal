@@ -74,6 +74,8 @@
 These basics will help you understand how Azure networking works later!
 
 
+
+
 NEW TOPIC:
 # Network Devices – Simple Notes
 
@@ -177,6 +179,8 @@ NEW TOPIC:
 - **Private, dedicated connection** between your office and Azure.
 - Faster and more reliable than a regular VPN.
 - Uses a third-party provider to set up the circuit.
+
+
 
 
 NEW TOPIC:
