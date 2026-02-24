@@ -76,7 +76,7 @@ These basics will help you understand how Azure networking works later!
 
 
 
-NEW TOPIC:
+# NEW TOPIC:
 # Network Devices – Simple Notes
 
 ## Network Standards (The Rules)
@@ -183,7 +183,7 @@ NEW TOPIC:
 
 
 
-NEW TOPIC:
+# NEW TOPIC:
 # Network Protocols – Simple Notes
 
 ## What is a Network Protocol?
@@ -307,7 +307,7 @@ The **TCP/IP model** has 4 layers. Each layer has a job:
 
 
 
-NEW TOPIC:
+# NEW TOPIC:
 # IP Address Standards and Services – Simple Notes
 
 ## ARP (Address Resolution Protocol)
