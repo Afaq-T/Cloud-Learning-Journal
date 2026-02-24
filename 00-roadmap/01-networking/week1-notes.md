@@ -299,3 +299,271 @@ The **TCP/IP model** has 4 layers. Each layer has a job:
 | **Network Watcher** | Capture packet data, troubleshoot network issues in Azure. |
 | **Network Performance Monitor** | Monitor health and performance of networks (cloud + on-premises). |
 | **Performance Monitor** | Tracks network connectivity, finds slow segments, monitors routes. |
+
+
+
+NEW TOPIC:
+# IP Address Standards and Services – Simple Notes
+
+## ARP (Address Resolution Protocol)
+- **Job:** Finds the MAC address of a device when you know its IP address.
+- Think of it like: You have someone's house number (IP), but you need their fingerprint (MAC) to identify them.
+- **RARP (Reverse ARP):** Does the opposite – finds IP address if you know the MAC.
+- **For IPv6:** ARP is replaced by **NDP (Neighbor Discovery Protocol)**.
+
+---
+
+## TCP/IP Model (Quick Refresher)
+TCP/IP has 4 layers. Each layer has a job:
+
+| Layer | What it does | Protocols Used |
+|-------|--------------|----------------|
+| **Application** | Handles user apps (browsers, email) | HTTP, HTTPS, DNS, FTP, SMTP, POP3, IMAP, SSH, TLS/SSL |
+| **Transport** | Splits data into chunks, assigns ports | TCP (reliable), UDP (fast) |
+| **Internet** | Adds IP addresses, routes packets | IP, IPv4, IPv6, ICMP, IPsec |
+| **Network Access** | Physical transmission (cables, Wi-Fi) | ARP, MAC, Ethernet, DSL, ISDN |
+
+> 💡 **Key Point:** TCP/IP is **open standard** – no single company owns it, so it works with everything.
+
+---
+
+## IPv4 (Internet Protocol version 4)
+- Released: **1983**
+- Address size: **32 bits**
+- Total possible addresses: **4.3 billion**
+- Format: **Dotted-decimal** (e.g., `192.168.0.1`)
+
+### Parts of an IPv4 Address
+- **Network part:** Identifies the network (first part of the address)
+- **Host part:** Identifies the specific device (last part)
+
+Example: `192.168.0.1`
+- Network part: `192.168.0`
+- Host part: `1`
+
+### IPv4 Address Classes
+| Class | Start | End | Subnet Mask | Use |
+|-------|-------|-----|-------------|-----|
+| A | 0.0.0.0 | 127.255.255.255 | 255.0.0.0 | Large networks |
+| B | 128.0.0.0 | 191.255.255.255 | 255.255.0.0 | Medium networks |
+| C | 192.0.0.0 | 223.255.255.255 | 255.255.255.0 | Small networks |
+| D | 224.0.0.0 | 239.255.255.255 | – | Multicast (one-to-many) |
+| E | 240.0.0.0 | 255.255.255.255 | – | Reserved (experimental) |
+
+---
+
+## Subnetting (Dividing Networks)
+- **Subnet:** A smaller network inside a larger network.
+- **Subnet Mask:** Tells you which part of the IP is the network and which part is the host.
+
+### Example
+IP: `192.168.0.1`  
+Subnet Mask: `255.255.255.0`  
+- The `255` parts are **fixed** (network part = `192.168.0`)  
+- The `0` part is **flexible** (host part can be `1` to `254`)
+
+### CIDR Notation (Simpler Way)
+Instead of writing `255.255.255.0`, you write: `192.168.0.0/24`  
+- `/24` means **24 bits are fixed** for the network, **8 bits** are for hosts.
+- `/24` = 256 addresses (254 usable – 1 for network, 1 for broadcast)
+
+Common CIDR blocks:
+- `/24` = 256 addresses
+- `/16` = 65,536 addresses
+- `/8` = 16.7 million addresses
+
+---
+
+## Private IP Addresses (Not on the Internet)
+These IPs are for **internal use only** – routers on the internet ignore them.
+
+| Name | CIDR | Address Range | Use |
+|------|------|---------------|-----|
+| 24-bit block | 10.0.0.0/8 | 10.0.0.0 – 10.255.255.255 | Large private networks |
+| 20-bit block | 172.16.0.0/12 | 172.16.0.0 – 172.31.255.255 | Medium networks |
+| 16-bit block | 192.168.0.0/16 | 192.168.0.0 – 192.168.255.255 | Home/small office |
+
+> 💡 **NAT (Network Address Translation):** Lets multiple private devices share one public IP to access the internet.
+
+---
+
+## Special-Use Addresses (You'll See These)
+| Address Range | What it's for |
+|---------------|---------------|
+| 127.0.0.0 – 127.255.255.255 | **Loopback** – your own computer (localhost) |
+| 169.254.0.0 – 169.254.255.255 | **APIPA** – when DHCP fails, Windows auto-assigns this |
+| 255.255.255.255 | **Broadcast** – sends to all devices on network |
+
+---
+
+## IPv4 Address Exhaustion (We Ran Out!)
+- Too many devices, not enough IPv4 addresses.
+- Solutions:
+  - **NAT** (one public IP for many private devices)
+  - **CIDR** (more efficient use of address space)
+  - **IPv6** (long-term fix)
+
+---
+
+## IPv6 (Internet Protocol version 6)
+- Released: **2006** (commercially)
+- Address size: **128 bits**
+- Total addresses: **340 undecillion** (way more than we'll ever need)
+- Format: **8 groups of hexadecimal** separated by colons
+
+### Example IPv6 Address
+Full: `2001:0db8:0000:0000:0000:8a2e:0370:7334`  
+Shortened: `2001:db8::8a2e:370:7334`
+
+### Shortening Rules
+1. Remove **leading zeros** in a group (0042 → 42)
+2. Replace **consecutive zero groups** with `::` (can use only once)
+
+### IPv6 Benefits
+- **Built-in security** (IPsec is mandatory)
+- **Autoconfiguration** – devices can assign themselves an IP
+- **No NAT needed** – true end-to-end connectivity
+- **Multicast & Anycast** – better broadcasting options
+
+---
+
+## DNS (Domain Name System)
+- **Job:** Translates human-friendly names (like `google.com`) into IP addresses (like `142.250.80.46`).
+- Think of it as the **phonebook of the internet**.
+
+### How DNS Works
+1. You type `google.com` in browser.
+2. Your computer asks a DNS server: "What's the IP for google.com?"
+3. DNS server checks its cache. If not there, it asks other DNS servers.
+4. Finally finds the IP and sends it back.
+5. Your browser connects to that IP.
+
+### DNS Record Types
+| Record | What it does |
+|--------|--------------|
+| **A** | Maps domain to IPv4 address |
+| **AAAA** | Maps domain to IPv6 address |
+| **CNAME** | Alias (e.g., `www` → `domain.com`) |
+| **MX** | Mail server for the domain |
+| **NS** | Name servers for the domain |
+| **SOA** | Start of Authority – main info about the domain |
+
+---
+
+## What Azure Offers
+
+### Azure DNS
+- Host your domain's DNS records in Azure.
+- Manage A, AAAA, CNAME, MX, NS, SOA records.
+- **Alias records:** Point to Azure resources directly (like load balancers, CDN).
+
+> Note: Azure DNS is for **hosting** DNS – you still need a **registrar** (like GoDaddy) to buy the domain name.
+
+### Azure Virtual Network
+- Build your own private network in the cloud.
+- Use **private IP addresses** (like 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16).
+- Create **subnets** to organize resources.
+- Connect to on-premises networks via VPN or ExpressRoute.
+
+---
+
+## Quick Summary Table
+
+| Concept | What It Is |
+|---------|------------|
+| **ARP** | Finds MAC address from IP |
+| **IPv4** | 32-bit addresses (e.g., 192.168.1.1) – running out |
+| **IPv6** | 128-bit addresses (e.g., 2001:db8::1) – future-proof |
+| **Subnet** | Divides a network into smaller pieces |
+| **CIDR** | Shorthand for subnet masks (/24, /16, etc.) |
+| **Private IP** | Internal use only (10.x, 172.16–31.x, 192.168.x) |
+| **NAT** | Lets private IPs share one public IP |
+| **DNS** | Translates domain names to IP addresses |
+
+
+
+# Summary
+
+## What We Learned This Week
+
+### Networks Are Made of Two Things:
+1. **Tangible stuff** (hardware):
+   - Network devices (switches, routers, hubs, repeaters)
+   - Cables and physical connections
+
+2. **Intangible stuff** (software/rules):
+   - Network protocols (TCP/IP, HTTP, DNS, etc.)
+   - Security protocols (SSL/TLS, SSH, HTTPS)
+   - IP addressing (IPv4, IPv6)
+
+---
+
+## Why This Matters
+- Understanding how networks work is **essential** before learning Azure cloud.
+- The same principles apply to:
+  - Your home Wi-Fi
+  - A company's office network
+  - The entire internet
+  - Microsoft Azure cloud networks
+
+---
+
+## Key Takeaways
+
+### Network Types
+| Type | What It Covers |
+|------|----------------|
+| **PAN** | Personal devices (phone ↔ smartwatch) |
+| **LAN** | One building (office, school, home) |
+| **MAN** | City-wide connections |
+| **WAN** | Connects different cities/countries |
+
+### Network Topologies (Layouts)
+- **Bus:** One cable, all devices connected (simple but fragile)
+- **Ring:** Devices connected in a circle
+- **Star:** All devices connect to a central switch (most common)
+- **Mesh:** Multiple connections for reliability
+
+### Network Devices
+| Device | Job |
+|--------|-----|
+| **Repeater** | Boosts signal for longer distances |
+| **Hub** | Connects devices but sends data to everyone (old tech) |
+| **Switch** | Connects devices intelligently (sends data only to right device) |
+| **Router** | Connects different networks (like your home network to the internet) |
+| **Access Point** | Provides Wi-Fi |
+
+### Protocols (The Rules)
+- **TCP/IP:** The foundation of internet communication
+- **HTTP/HTTPS:** Web browsing
+- **DNS:** Translates google.com to IP addresses
+- **DHCP:** Automatically assigns IP addresses to devices
+- **SMTP/POP3/IMAP:** Email sending/receiving
+- **SSH:** Secure remote access to servers
+
+### IP Addressing
+- **IPv4:** 32-bit addresses (e.g., 192.168.1.1) – we're running out!
+- **IPv6:** 128-bit addresses (e.g., 2001:db8::1) – future-proof, massive number of addresses
+- **Private IPs:** Used inside networks (10.x, 172.16–31.x, 192.168.x)
+- **Public IPs:** Visible on the internet
+- **NAT:** Lets many private IPs share one public IP
+
+### Subnetting
+- Dividing a big network into smaller pieces
+- **CIDR notation:** /24, /16, /8 (shows how many IPs are in the network)
+
+### DNS (Domain Name System)
+- The **phonebook of the internet**
+- Converts human-friendly names (google.com) to computer-friendly IPs (142.250.80.46)
+
+---
+
+## Why This Helps with Azure
+- Azure Virtual Networks work exactly like physical networks – just in the cloud.
+- You'll use the same concepts:
+  - IP addressing
+  - Subnets
+  - DNS
+  - Routing
+  - Firewalls (NSGs)
+- Azure just makes it **software-defined** so you can configure it with clicks or code.
