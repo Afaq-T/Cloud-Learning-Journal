@@ -74,6 +74,8 @@
 These basics will help you understand how Azure networking works later!
 
 
+
+
 NEW TOPIC:
 # Network Devices – Simple Notes
 
@@ -177,6 +179,8 @@ NEW TOPIC:
 - **Private, dedicated connection** between your office and Azure.
 - Faster and more reliable than a regular VPN.
 - Uses a third-party provider to set up the circuit.
+
+
 
 
 NEW TOPIC:
@@ -299,6 +303,7 @@ The **TCP/IP model** has 4 layers. Each layer has a job:
 | **Network Watcher** | Capture packet data, troubleshoot network issues in Azure. |
 | **Network Performance Monitor** | Monitor health and performance of networks (cloud + on-premises). |
 | **Performance Monitor** | Tracks network connectivity, finds slow segments, monitors routes. |
+<<<<<<< HEAD
 
 
 
@@ -567,3 +572,5 @@ Shortened: `2001:db8::8a2e:370:7334`
   - Routing
   - Firewalls (NSGs)
 - Azure just makes it **software-defined** so you can configure it with clicks or code.
+=======
+>>>>>>> 61442d9ece3b55cb362a43fd331cd62b4ba52738
