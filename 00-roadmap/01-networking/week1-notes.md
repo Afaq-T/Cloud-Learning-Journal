@@ -177,3 +177,125 @@ NEW TOPIC:
 - **Private, dedicated connection** between your office and Azure.
 - Faster and more reliable than a regular VPN.
 - Uses a third-party provider to set up the circuit.
+
+
+NEW TOPIC:
+# Network Protocols – Simple Notes
+
+## What is a Network Protocol?
+- A set of **rules** that devices follow to communicate with each other.
+- Think of it like a language – if two devices don't speak the same protocol, they can't understand each other.
+- Protocols handle: how to start communication, how to send data, how to handle errors.
+
+## Key Terms to Know
+
+### Network Address
+- **MAC Address:** Hardware-level address (burned into the network card). Physical fingerprint.
+- **IP Address:** Software-level address (like your device's mailing address on the internet).
+
+### Data Packet
+- A chunk of data sent over the network.
+- Contains:
+  - **Header:** Sender address, destination address, packet size, protocol, packet number.
+  - **Data:** The actual content.
+  - **Trailer:** Error checking info.
+- Analogy: Mailing a book one page at a time – each envelope has enough info to reassemble later.
+
+### Datagram
+- Same as a packet, but usually refers to **unreliable** delivery (no guarantee it arrives).
+
+### Routing
+- The process of finding the best path for data to travel from sender to receiver across networks.
+
+---
+
+## Three Categories of Protocols
+
+### 1. Communication Protocols (Sending/Receiving Data)
+
+#### Foundational Protocols (The Basics)
+| Protocol | Name | What it does |
+|----------|------|--------------|
+| **IP** | Internet Protocol | Handles **addressing** – adds sender/recipient IP addresses to packets. Doesn't guarantee delivery, just addresses. |
+| **TCP** | Transmission Control Protocol | Makes sure data arrives **completely and in order**. Reliable but has overhead (slower). |
+| **UDP** | User Datagram Protocol | Fast, **connectionless**, no guarantee of delivery. Used for streaming, gaming, VoIP where speed matters more than perfection. |
+
+#### Application Protocols (What We Use Daily)
+| Protocol | Name | What it does |
+|----------|------|--------------|
+| **HTTP** | Hypertext Transfer Protocol | Delivers web pages from server to browser. |
+| **HTTPS** | HTTP Secure | Encrypted version of HTTP (uses SSL/TLS). |
+| **FTP** | File Transfer Protocol | Upload/download files to/from a server. |
+| **POP3** | Post Office Protocol | Receives emails (downloads to your device). |
+| **SMTP** | Simple Mail Transfer Protocol | Sends emails. |
+| **IMAP** | Internet Message Access Protocol | Manages emails on the server (keeps them synced across devices). |
+
+---
+
+### 2. Security Protocols (Keeping Data Safe)
+
+| Protocol | What it does |
+|----------|--------------|
+| **SSL** | Secure Socket Layer – encrypts data between your computer and a server. |
+| **TLS** | Transport Layer Security – newer, stronger version of SSL. |
+| **HTTPS** | HTTP + SSL/TLS – secure web browsing (the padlock in your browser). |
+| **SSH** | Secure Shell – secure remote login to servers (like a safe command line). |
+| **Kerberos** | Strong authentication for client-server apps (uses secret-key cryptography). |
+
+---
+
+### 3. Management Protocols (Monitoring & Maintenance)
+
+| Protocol | What it does |
+|----------|--------------|
+| **SNMP** | Simple Network Management Protocol – collects data from network devices (switches, routers, printers) for monitoring. |
+| **ICMP** | Internet Control Message Protocol – sends error messages and operational info (e.g., "host unreachable"). Used by `ping`. |
+
+---
+
+## Ports (The Doors to Your Computer)
+
+- A **port** is like an apartment number – IP address is the building, port is the specific door.
+- Range: **0–65535**
+- **Well-known ports (0–1023):** Reserved for common services.
+
+### Common Ports to Memorize
+| Port | Protocol/Service |
+|------|------------------|
+| 20 | FTP (data transfer) |
+| 21 | FTP (command control) |
+| 22 | SSH (secure shell) |
+| 23 | Telnet (old, insecure remote login) |
+| 25 | SMTP (sending email) |
+| 53 | DNS (domain name system) |
+| 80 | HTTP (web) |
+| 110 | POP3 (receiving email) |
+| 123 | NTP (network time protocol) |
+| 143 | IMAP (email management) |
+| 161 | SNMP (network monitoring) |
+| 443 | HTTPS (secure web) |
+
+---
+
+## Internet Protocol Suite (TCP/IP Model)
+
+The **TCP/IP model** has 4 layers. Each layer has a job:
+
+| Layer | What it does | Protocols Used |
+|-------|--------------|----------------|
+| **Application** | Handles user-facing apps (email, web browsing) | HTTP, HTTPS, FTP, SMTP, POP3, IMAP, DNS |
+| **Transport** | Manages communication between devices | TCP (reliable), UDP (fast) |
+| **Internet** | Handles addressing and routing | IP, ICMP, IPsec |
+| **Network Access** | Physical transmission of data (cables, Wi-Fi) | Ethernet, MAC, ARP, DSL |
+
+> 💡 **Note:** The OSI model has 7 layers, but TCP/IP's 4-layer model is simpler and more practical.
+
+---
+
+## Azure Monitoring Tools
+
+| Tool | What it does |
+|------|--------------|
+| **Network Watcher** | Capture packet data, troubleshoot network issues in Azure. |
+| **Network Performance Monitor** | Monitor health and performance of networks (cloud + on-premises). |
+| **Performance Monitor** | Tracks network connectivity, finds slow segments, monitors routes. |
