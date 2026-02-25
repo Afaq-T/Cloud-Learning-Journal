@@ -573,4 +573,197 @@ Shortened: `2001:db8::8a2e:370:7334`
   - Firewalls (NSGs)
 - Azure just makes it **software-defined** so you can configure it with clicks or code.
 =======
->>>>>>> 61442d9ece3b55cb362a43fd331cd62b4ba52738
+
+
+
+
+
+```markdown
+## Networking Commands – Simple Notes from My Terminal
+
+**Where:** GitHub Codespaces (Ubuntu Linux)  
+---
+
+### 1. `ip addr` – See my network cards and IP addresses
+**What it does:** Shows all network interfaces (like Wi-Fi, Ethernet, virtual) and their IP addresses.
+
+**My output:**
+```
+1: lo: <LOOPBACK,UP,LOWER_UP> ... inet 127.0.0.1/8 scope host lo
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> ... inet 10.0.1.14/16 brd 10.0.255.255 scope global eth0
+3: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> ... inet 172.17.0.1/16 scope global docker0
+```
+**What it means:**
+- `lo` = loopback – your computer talking to itself (localhost).
+- `eth0` = my main network card, IP `10.0.1.14` with a subnet mask of `255.255.0.0` (/16).
+- `docker0` = a virtual network for Docker (not being used right now).
+
+---
+
+### 2. `ping` – Test if a computer is reachable (like a knock on the door)
+**What it does:** Sends a small packet and waits for an answer. It uses a protocol called ICMP.
+
+#### a) `ping 4 8.8.8.8` – I made a typo here
+**Output:**
+```
+47 packets transmitted, 0 received, 100% packet loss
+```
+**What happened:** I typed `4` instead of `-c 4`, so it kept pinging forever until I pressed Ctrl+C. All packets were lost.
+
+#### b) `ping -c 4 8.8.8.8` – Send only 4 pings to Google's DNS (8.8.8.8)
+**Output:**
+```
+4 packets transmitted, 0 received, 100% packet loss
+```
+**Why?** In Codespaces, ICMP is blocked for security. So even though the internet works, `ping` won't get replies.
+
+#### c) `ping -c 2 google.com` – Ping Google by name
+**Output:**
+```
+PING google.com (142.250.207.206) ... 2 packets transmitted, 0 received
+```
+**What it means:** DNS worked – it found Google's IP `142.250.207.206`. But still no ping replies (ICMP blocked).
+
+**Simple lesson:** Don't rely on `ping` in cloud environments. Use `curl` or `wget` instead.
+
+---
+
+### 3. `apt` – The app store for Ubuntu (install/update software)
+
+#### a) `sudo apt --upgrade` – Wrong command, showed help instead
+**Output:** (help text)  
+**Lesson:** To upgrade packages, use `sudo apt upgrade`.
+
+#### b) `sudo apt install --upgrade` – Still wrong, did nothing
+**Output:** `0 upgraded, 0 newly installed`  
+**Lesson:** `--upgrade` is not a valid option for `install`.
+
+#### c) `sudo apt get --upgrade` – Another mistake
+**Output:** `E: Invalid operation get`  
+**Lesson:** The correct command is `apt-get` or `apt`.
+
+#### d) `sudo apt install -y traceroute` – Installs the traceroute tool
+**Output:** (lots of download and installation messages)  
+**Lesson:** Now I have `traceroute` available.
+
+#### e) `sudo apt install -y netcat` – Tried to install netcat
+**Output:** Said `netcat` is a "virtual package" and I need to choose `netcat-openbsd` or `netcat-traditional`.  
+**Lesson:** Some packages are just placeholders; you must pick the real one.
+
+#### f) `sudo apt update && sudo apt install -y dnsutils net-tools iputils-ping traceroute curl wget tcpdump nmap netcat-openbsd telnet mtr whois` – The big install
+**Output:** (long list of installed packages)  
+**Lesson:** This installed a full set of networking tools all at once. Now I have `dig`, `nslookup`, `ifconfig`, `tcpdump`, `nmap`, `nc`, `telnet`, `mtr`, `whois`, and more.
+
+---
+
+### 4. `curl -I https://www.google.com` – Check if a website is reachable
+**What it does:** Fetches just the headers (not the whole page) from Google using HTTPS (port 443).
+
+**Output:**
+```
+HTTP/2 200 
+content-type: text/html; charset=ISO-8859-1
+...
+```
+**What it means:** `200 OK` means Google is alive and my internet works! This proves that although `ping` fails, web traffic is fine.
+
+---
+
+### 5. `traceroute` – See the path my packets take to a destination
+
+#### Before install: `traceroute 8.8.8.8`
+**Output:** `bash: traceroute: command not found`  
+**Lesson:** Tool wasn't installed yet.
+
+#### After install: `traceroute 8.8.8.8`
+**Output:**
+```
+1  * * *
+2  * * *
+3  * * *
+... (all stars)
+```
+**Why?** `traceroute` also uses ICMP or UDP, which are blocked. No replies.
+
+#### `sudo tcptraceroute 8.8.8.8 443` – Try TCP version on port 443
+**Output:** Still all stars. Even TCP traceroute may be blocked.
+
+**Lesson:** In some cloud environments, you can't trace the route.
+
+---
+
+### 6. `ip route` – Show the routing table (how my computer sends packets)
+**What it does:** Lists rules for where to send data.
+
+**Output:**
+```
+default via 10.0.0.1 dev eth0 proto dhcp src 10.0.1.14 metric 100
+10.0.0.0/16 dev eth0 proto kernel scope link src 10.0.1.14
+168.63.129.16 via 10.0.0.1 dev eth0 proto dhcp src 10.0.1.14
+169.254.169.254 via 10.0.0.1 dev eth0 proto dhcp src 10.0.1.14
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown
+```
+**What it means:**
+- `default via 10.0.0.1` = all internet traffic goes through the router at `10.0.0.1`.
+- `10.0.0.0/16` = my local network (all devices with IPs starting with 10.0).
+- `168.63.129.16` and `169.254.169.254` are special Azure services (metadata and DNS).
+- `172.17.0.0/16` = Docker's private network (not active now).
+
+---
+
+### 7. `wget -O /dev/null http://google.com` – Download a webpage without saving it
+**What it does:** Connects to Google over HTTP (port 80) and downloads the page but throws it away (`-O /dev/null`). It shows if the connection works.
+
+**Output:**
+```
+--2026-02-25 ... http://google.com/ ... 200 OK ... saved [20014]
+```
+**What it means:** `200 OK` means HTTP works fine. Google redirected to `www.google.com` but still returned success.
+
+**Lesson:** Use `wget` or `curl` to test web connectivity when `ping` fails.
+
+---
+
+### 8. `dig` – DNS lookup (find IP address of a domain)
+
+#### Before install: `dig google.com`
+**Output:** `bash: dig: command not found`
+
+#### After install: `sudo dig google.com`
+**Output:**
+```
+;; ANSWER SECTION:
+google.com. 138 IN A 142.250.206.110
+```
+**What it means:** DNS is working! Google's domain name resolves to IP `142.250.206.110`.
+
+---
+
+### 9. `netstat -an` – Show all network connections and listening ports
+**What it does:** Lists every open port and active connection on my machine.
+
+**Output (shortened):**
+```
+Active Internet connections
+tcp  0  0 127.0.0.53:53   0.0.0.0:*   LISTEN      (DNS server)
+tcp  0  0 10.0.1.14:43204 20.60.84.33:443 ESTABLISHED (outgoing HTTPS)
+tcp  0  0 0.0.0.0:2222    0.0.0.0:*   LISTEN      (Codespaces SSH)
+```
+**What it means:**
+- `LISTEN` = my computer is waiting for someone to connect (like a web server or SSH).
+- `ESTABLISHED` = an active connection to another computer (here, to GitHub on port 443).
+- Port `53` (DNS) is listening locally.
+- Port `2222` is for Codespaces SSH.
+
+---
+
+### 🔍 Simple Key Takeaways
+- **ICMP is blocked** in Codespaces – `ping` and `traceroute` won't work. Don't panic; use `curl` or `wget` to test internet.
+- **Install tools first** – many commands aren't pre-installed. Use `sudo apt install` to get them.
+- **`curl -I` or `wget`** are your friends for checking web access.
+- **`ip addr`** shows your IP.
+- **`ip route`** shows your gateway.
+- **`dig`** checks DNS.
+- **`netstat -an`** shows open ports and active connections – great for security.
+
+```
