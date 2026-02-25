@@ -573,4 +573,57 @@ Shortened: `2001:db8::8a2e:370:7334`
   - Firewalls (NSGs)
 - Azure just makes it **software-defined** so you can configure it with clicks or code.
 =======
->>>>>>> 61442d9ece3b55cb362a43fd331cd62b4ba52738
+# Networking Fundamentals
+
+## 1. TCP/IP Model vs OSI Model
+- **TCP/IP Model** (4 layers):
+  1. **Application Layer** – protocols like HTTP, DNS, SSH
+  2. **Transport Layer** – TCP (reliable, connection-oriented) and UDP (fast, connectionless)
+  3. **Internet Layer** – handles IP addresses and routing (e.g., IPv4, IPv6)
+  4. **Network Access Layer** – physical hardware and data link
+
+- **OSI Model** (7 layers) – conceptual, not used as directly in practice:
+  - Physical, Data Link, Network, Transport, Session, Presentation, Application
+
+**Key takeaway:** Focus on TCP/IP layers – they map directly to how the internet works.
+
+---
+
+## 2. DNS (Domain Name System)
+- Translates human-friendly domain names (e.g., `google.com`) into machine‑readable IP addresses (e.g., `142.250.80.46`).
+- **How it works:** Your computer asks a DNS server, “What is the IP of google.com?” The DNS server replies with the IP, then your browser connects to that IP.
+- If DNS fails, websites won’t open by name, but you can still access them by typing the IP address directly.
+
+---
+
+## 3. Ports
+- Think of an **IP address** like a building address, and **ports** like apartment numbers inside that building.
+- Common ports:
+  - **22** – SSH (secure remote terminal)
+  - **53** – DNS
+  - **80** – HTTP (unencrypted web traffic)
+  - **443** – HTTPS (encrypted web traffic)
+  - **3389** – RDP (Remote Desktop Protocol for Windows)
+  - **25** – SMTP (email sending)
+
+---
+
+## 4. Private vs Public IP Addresses
+- **Private IPs** – used inside your home or office network (e.g., `192.168.1.x`, `10.0.0.x`). They are not routable on the public internet.
+- **Public IP** – assigned to your router by your ISP; this is the address the internet sees.
+- **NAT (Network Address Translation)** – the router translates private IPs to its public IP so multiple devices can share one public IP.
+
+---
+
+## 5. Subnets and CIDR Notation
+- A **subnet** divides a network into smaller, manageable pieces.
+- **CIDR notation** (e.g., `/24`) indicates how many IP addresses are in the subnet:
+  - `/24` → 256 addresses total, 254 usable (first is network, last is broadcast)
+  - `/16` → 65,536 addresses
+- Used heavily when designing Azure VNets and on‑prem networks.
+
+---
+
+## 6. DHCP (Dynamic Host Configuration Protocol)
+- Automatically assigns IP addresses, subnet masks, default gateway, and DNS servers to devices when they join a network.
+- If DHCP fails, Windows devices may assign themselves an **APIPA** address (`169.254.x.x`), meaning they couldn’t reach a DHCP server.
