@@ -6,114 +6,61 @@ Copy and paste the following into your troubleshooting scenario file (e.g., `01-
 
 
 
+**Problem 1**:
+
+
 ## Problem 1: "Wi‑Fi says connected but I can't access the internet"
 
-### Step‑by‑Step Diagnosis (Example Outputs)
+### Troubleshooting Steps
 
-1. **Check your IP configuration**  
-   Run `ipconfig` in Command Prompt:
+1. **Check your IP address**  
+   Open Command Prompt and run:
+   ```
+   ipconfig /all
+   ```
+   - Look at the **IPv4 Address** of your Wi‑Fi adapter.
+   - **If it starts with 169.254.x.x** → This is an APIPA address. It means your device failed to get a valid IP from the DHCP server (usually your router).  
+     **Fix:** Release and renew the IP:
+     ```
+     ipconfig /release
+     ipconfig /renew
+     ```
+   - **If you have a normal IP** (like 192.168.x.x or 10.x.x.x) → Move to the next step.
 
+2. **Test connectivity to your router (default gateway)**  
+   In the same `ipconfig` output, find the **Default Gateway** address (e.g., 192.168.1.1). Then ping it:
+   ```
+   ping <gateway-address>
+   ```
+   - **If the gateway does NOT respond** → The problem is between your device and the router. Check your Wi‑Fi signal, restart the router, or check cables.
+   - **If the gateway responds** → Your local network is working. Move to step 3.
 
-```markdown
-C:\Windows\system32>ipconfig
+3. **Test internet connectivity by pinging an external IP**  
+   Ping Google’s public DNS server:
+   ```
+   ping 8.8.8.8
+   ```
+   - **If this fails** → Your internet connection is down. This could be an ISP outage, modem issue, or problem with your router’s internet link. Restart your modem and router.
+   - **If this works** → Your internet is up, but there might be a DNS problem. Move to step 4.
 
-Windows IP Configuration
+4. **Test DNS resolution**  
+   Ping a domain name, e.g.:
+   ```
+   ping google.com
+   ```
+   - **If this fails** (but step 3 worked) → Your DNS is broken.  
+     **Fix:** Change your DNS server to a public one like Google’s (8.8.8.8) in your network adapter settings.
+   - **If this works** → Congratulations, your internet is fully functional! If you still can't browse, check browser settings, proxy, or firewall.
 
-Ethernet adapter Ethernet:
-   Media State . . . . . . . . . . . : Media disconnected
-   Connection-specific DNS Suffix  . :
-
-Wireless LAN adapter Local Area Connection* 11:
-   Media State . . . . . . . . . . . : Media disconnected
-   Connection-specific DNS Suffix  . :
-
-Wireless LAN adapter Local Area Connection* 12:
-   Media State . . . . . . . . . . . : Media disconnected
-   Connection-specific DNS Suffix  . :
-
-Ethernet adapter VMware Network Adapter VMnet1:
-   Connection-specific DNS Suffix  . :
-   Link-local IPv6 Address . . . . . : fe80::2426:44dd:8c1a:9cd2%10
-   IPv4 Address. . . . . . . . . . . : 192.168.184.1
-   Subnet Mask . . . . . . . . . . . : 255.255.255.0
-   Default Gateway . . . . . . . . . :
-
-Ethernet adapter VMware Network Adapter VMnet8:
-   Connection-specific DNS Suffix  . :
-   Link-local IPv6 Address . . . . . : fe80::34ee:4999:2fe8:92b4%9
-   IPv4 Address. . . . . . . . . . . : 192.168.118.1
-   Subnet Mask . . . . . . . . . . . : 255.255.255.0
-   Default Gateway . . . . . . . . . :
-
-Wireless LAN adapter Wi-Fi:
-   Connection-specific DNS Suffix  . :
-   Link-local IPv6 Address . . . . . : fe80::97d7:5fe9:78a2:e582%21
-   IPv4 Address. . . . . . . . . . . : 192.168.0.104
-   Subnet Mask . . . . . . . . . . . : 255.255.255.0
-   Default Gateway . . . . . . . . . : 192.168.0.1
-
-Ethernet adapter Bluetooth Network Connection:
-   Media State . . . . . . . . . . . : Media disconnected
-   Connection-specific DNS Suffix  . :
-```
-
-2. **Ping the default gateway**  
-   `ping 192.168.0.1`
-
-```
-C:\Windows\system32>ping 192.168.0.1
-
-Pinging 192.168.0.1 with 32 bytes of data:
-Reply from 192.168.0.1: bytes=32 time=1ms TTL=64
-Reply from 192.168.0.1: bytes=32 time=1ms TTL=64
-Reply from 192.168.0.1: bytes=32 time=1ms TTL=64
-Reply from 192.168.0.1: bytes=32 time=12ms TTL=64
-
-Ping statistics for 192.168.0.1:
-    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
-Approximate round trip times in milli-seconds:
-    Minimum = 1ms, Maximum = 12ms, Average = 3ms
-```
-
-3. **Ping an external IP (Google DNS)**  
-   Use the correct Windows option `-n` for packet count.
-
-```
-C:\Windows\system32>ping -n 2 8.8.8.8
-
-Pinging 8.8.8.8 with 32 bytes of data:
-Reply from 8.8.8.8: bytes=32 time=55ms TTL=115
-Reply from 8.8.8.8: bytes=32 time=117ms TTL=115
-
-Ping statistics for 8.8.8.8:
-    Packets: Sent = 2, Received = 2, Lost = 0 (0% loss),
-Approximate round trip times in milli-seconds:
-    Minimum = 55ms, Maximum = 117ms, Average = 86ms
-```
-
-4. **Ping a domain name (test DNS)**  
-   `ping -n 2 google.com`
-
-```
-C:\Windows\system32>ping -n 2 google.com
-
-Pinging google.com [142.250.202.238] with 32 bytes of data:
-Reply from 142.250.202.238: bytes=32 time=36ms TTL=115
-Reply from 142.250.202.238: bytes=32 time=35ms TTL=115
-
-Ping statistics for 142.250.202.238:
-    Packets: Sent = 2, Received = 2, Lost = 0 (0% loss),
-Approximate round trip times in milli-seconds:
-    Minimum = 35ms, Maximum = 36ms, Average = 35ms
-```
-
-**Interpretation:**  
-- The Wi‑Fi adapter has a valid IP (`192.168.0.104`) and gateway (`192.168.0.1`).  
-- The gateway responds to ping, so the local network is fine.  
-- External IP (`8.8.8.8`) responds, so internet connectivity exists.  
-- Domain name (`google.com`) resolves and responds, so DNS is working.  
-
-In this example, there is **no actual connectivity problem** – the commands confirm that the internet is reachable. If you were experiencing “no internet,” the symptoms would differ (e.g., gateway unreachable, failed ping to 8.8.8.8, or DNS failure).
+### Summary of Commands Used
+| Command | Purpose |
+|---------|---------|
+| `ipconfig /all` | Shows IP configuration, gateway, DNS |
+| `ipconfig /release` | Releases current IP (DHCP) |
+| `ipconfig /renew` | Requests a new IP from DHCP |
+| `ping <gateway>` | Tests connection to local router |
+| `ping 8.8.8.8` | Tests internet connectivity (by IP) |
+| `ping google.com` | Tests DNS + internet connectivity |
 
 
 
