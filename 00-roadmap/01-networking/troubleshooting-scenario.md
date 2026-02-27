@@ -5,7 +5,7 @@ First, check your IP address using ipconfig. If the IP starts with 169.254, that
 Copy and paste the following into your troubleshooting scenario file (e.g., `01-networking/troubleshooting-scenario.md`). 
 
 
-```markdown
+
 ## Problem 1: "Wi‑Fi says connected but I can't access the internet"
 
 ### Step‑by‑Step Diagnosis (Example Outputs)
@@ -13,7 +13,8 @@ Copy and paste the following into your troubleshooting scenario file (e.g., `01-
 1. **Check your IP configuration**  
    Run `ipconfig` in Command Prompt:
 
-```
+
+```markdown
 C:\Windows\system32>ipconfig
 
 Windows IP Configuration
@@ -113,9 +114,8 @@ Approximate round trip times in milli-seconds:
 - Domain name (`google.com`) resolves and responds, so DNS is working.  
 
 In this example, there is **no actual connectivity problem** – the commands confirm that the internet is reachable. If you were experiencing “no internet,” the symptoms would differ (e.g., gateway unreachable, failed ping to 8.8.8.8, or DNS failure).
-```
 
-This preserves the original command outputs and adds brief interpretation. You can adjust the interpretation if you want to simulate a failure instead.
+
 
 ## Problem 2: "My IP address starts with 169.254"
 This is APIPA. It means your computer tried to get an IP from a DHCP server but couldn't reach one. Check if your network cable is plugged in properly. Check if the DHCP server (usually your router) is running. Try restarting your router. If on Wi-Fi, try forgetting the network and reconnecting.
