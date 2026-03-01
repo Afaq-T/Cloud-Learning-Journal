@@ -1,0 +1,115 @@
+## Issue: [Short descriptive name]
+
+# IT Support Playbook
+
+
+## FORMAT:
+**Symptoms:** [What the user experiences]
+**Steps to Troubleshoot:**
+1. [Command or action]
+2. [Next step based on result]
+3. [Continue until root cause found]
+**Resolution:** [What fixes the issue]
+**When to Escalate:** [When to pass to higher‑level support]
+
+
+
+## Issue: Wi-Fi Connected But No Internet
+**Symptoms:** User reports Wi-Fi icon shows connected, but browsers show "No Internet"
+**Steps to Troubleshoot:**
+1. Open CMD → type `ipconfig /all`
+2. Check IP address — if `169.254.x.x` → DHCP problem
+3. If normal IP → ping default gateway
+4. If gateway responds → ping `8.8.8.8`
+5. If `8.8.8.8` responds → ping `google.com`
+6. If `google.com` fails → DNS issue → change DNS to `8.8.8.8`
+**Resolution:** Depends on which step fails
+**When to Escalate:** If gateway is unreachable and reboot doesn't fix it, escalate to network team
+
+---
+
+## Issue: DHCP Failure (169.254.x.x IP)
+**Symptoms:** User has no internet; `ipconfig` shows IP starting with 169.254.x.x
+**Steps to Troubleshoot:**
+1. Run `ipconfig /release` then `ipconfig /renew`
+2. If still 169.254 → restart router
+3. Check physical connections (cable/Wi‑Fi)
+4. If on Wi‑Fi, forget network and reconnect
+**Resolution:** Successful DHCP lease
+**When to Escalate:** If router restart fails, check if DHCP server is running on router; escalate if router configuration needed
+
+---
+
+## Issue: DNS Failure (Can't Resolve Names)
+**Symptoms:** Can ping `8.8.8.8` but cannot browse by domain name
+**Steps to Troubleshoot:**
+1. Run `nslookup google.com` – if fails, DNS is down
+2. Flush DNS cache: `ipconfig /flushdns`
+3. Change DNS server to `8.8.8.8` in network settings
+4. If still fails, check router's DNS settings
+**Resolution:** Correct DNS configuration
+**When to Escalate:** If multiple devices affected, router may need replacement or ISP contact
+
+---
+
+## Issue: Slow Network / High Latency
+**Symptoms:** Web pages load slowly, videos buffer
+**Steps to Troubleshoot:**
+1. Run speed test (fast.com or speedtest.net)
+2. Check for packet loss: `ping -n 50 8.8.8.8`
+3. Identify bandwidth hogs (Windows Resource Monitor)
+4. Restart modem/router
+5. Check Wi‑Fi interference (change channel if possible)
+**Resolution:** Optimize network usage or upgrade plan
+**When to Escalate:** If all devices slow and reboot doesn't help, ISP issue
+
+---
+
+## Issue: Port Blocked (e.g., Can't Access Specific Service)
+**Symptoms:** Application can't connect, but internet works
+**Steps to Troubleshoot:**
+1. Verify which port is required (e.g., 3389 for RDP)
+2. Test port with `telnet <server> <port>` or online port checker
+3. Check Windows Firewall → Advanced Settings → Inbound Rules
+4. If on corporate network, check with network team
+**Resolution:** Open the port in firewall or adjust application
+**When to Escalate:** If firewall rule exists but still blocked, deeper network policy may be involved
+
+---
+
+## Issue: Can't RDP to Remote Server
+**Symptoms:** Remote Desktop connection fails or times out
+**Steps to Troubleshoot:**
+1. Ping server by IP – if unreachable, network issue
+2. If ping works, check if RDP port (3389) is open: `telnet <server> 3389`
+3. Verify Remote Desktop is enabled on the server
+4. Check Windows Firewall on server allows RDP
+5. If in Azure, check NSG rules for port 3389
+**Resolution:** Enable RDP or open firewall port
+**When to Escalate:** If server is in cloud/DC, may need admin access
+
+---
+
+## Issue: VPN Connected But Can't Access Internal Resources
+**Symptoms:** VPN shows connected, but can't ping internal servers or access intranet
+**Steps to Troubleshoot:**
+1. Check VPN-assigned IP (usually a private IP)
+2. Run `route print` to see if routes to internal networks exist
+3. Ping internal server by IP – if works, DNS issue
+4. If IP fails, check if split tunnel vs full tunnel
+5. Verify internal DNS is pushed by VPN
+**Resolution:** Correct routing or DNS settings
+**When to Escalate:** If routes are missing, VPN configuration may need update
+
+---
+
+## Issue: Printer Not Reachable on Network
+**Symptoms:** Users can't print, printer is offline
+**Steps to Troubleshoot:**
+1. Check printer's network connection (cable or Wi‑Fi)
+2. Ping printer's IP address from a PC
+3. If ping fails, restart printer
+4. Check if printer is on same subnet as PCs
+5. Verify printer is not in power save mode
+**Resolution:** Printer back online
+**When to Escalate:** If printer is on but unreachable, may need network team to check switch port/VLAN

@@ -1,0 +1,170 @@
+# Week 1 – Networking Quiz Review
+
+## My Answers vs Correct Answers
+
+---
+
+### 1. What does PAN stand for and what is its typical range?
+**Your Answer:** Personal Area Network, very short range  
+**Correct Answer:** Personal Area Network; typical range ~1–10 meters (e.g., Bluetooth).  
+**Result:** ✅ Correct
+
+---
+
+### 2. Name the four layers of the TCP/IP model from top to bottom.
+**Your Answer:** Application → Transport → Internet → Network Access  
+**Correct Answer:** Application, Transport, Internet, Network Access.  
+**Result:** ✅ Correct
+
+---
+
+### 3. Which protocol is used by the `ping` command and what type of messages does it send?
+**Your Answer:** ICMP, sends small package to check connectivity  
+**Correct Answer:** ICMP (Internet Control Message Protocol); it sends Echo Request and receives Echo Reply messages.  
+**Result:** ⚠️ Partially Correct (you didn't mention Echo Request/Reply specifically)
+
+---
+
+### 4. What port number is used by HTTPS?
+**Your Answer:** 443  
+**Correct Answer:** 443  
+**Result:** ✅ Correct
+
+---
+
+### 5. What does a 169.254.x.x IP address indicate on a Windows machine?
+**Your Answer:** DHCP not working  
+**Correct Answer:** APIPA (Automatic Private IP Addressing) – the device failed to obtain an IP from a DHCP server.  
+**Result:** ✅ Correct
+
+---
+
+### 6. What is the difference between a hub and a switch?
+**Your Answer:** Hub direct connection, switch multiple connections  
+**Correct Answer:**  
+- **Hub:** Layer 1 device, broadcasts data to all ports, no MAC address table, inefficient.  
+- **Switch:** Layer 2 device, uses MAC address table to forward data only to the intended device, efficient and secure.  
+**Result:** ❌ Incorrect (your explanation was inaccurate)
+
+---
+
+### 7. Give an example of a private IP address range (one of the three).
+**Your Answer:** 192.168.0.1  
+**Correct Answer:** Private IP ranges are:  
+- 10.0.0.0 – 10.255.255.255 (10.0.0.0/8)  
+- 172.16.0.0 – 172.31.255.255 (172.16.0.0/12)  
+- 192.168.0.0 – 192.168.255.255 (192.168.0.0/16)  
+You gave an example IP, not the range.  
+**Result:** ⚠️ Partially Correct
+
+---
+
+### 8. What does CIDR notation `/24` mean in terms of subnet mask and number of addresses?
+**Your Answer:** 24 bits network, 8 bits remaining, 254 hosts  
+**Correct Answer:** /24 means subnet mask 255.255.255.0; total 256 addresses, 254 usable hosts (first is network, last is broadcast).  
+**Result:** ⚠️ Partially Correct (your explanation about "network host full and user host not connected" was unclear)
+
+---
+
+### 9. Which command on Windows shows your IP configuration, including DNS servers?
+**Your Answer:** ipconfig /all  
+**Correct Answer:** ipconfig /all  
+**Result:** ✅ Correct
+
+---
+
+### 10. In Linux, what command is used to see network interfaces and their IP addresses?
+**Your Answer:** ifconfig  
+**Correct Answer:** The modern command is `ip addr`; `ifconfig` is older but still works on many systems.  
+**Result:** ⚠️ Acceptable (but `ip addr` is preferred)
+
+---
+
+### 11. What is the purpose of DNS?
+**Your Answer:** Converts name to IP  
+**Correct Answer:** Translates human-friendly domain names (e.g., google.com) into machine-readable IP addresses.  
+**Result:** ✅ Correct
+
+---
+
+### 12. Which two protocols operate at the Transport layer of the TCP/IP model?
+**Your Answer:** TCP and UDP  
+**Correct Answer:** TCP (reliable, connection-oriented) and UDP (fast, connectionless).  
+**Result:** ✅ Correct
+
+---
+
+### 13. What is the function of a router?
+**Your Answer:** Routes traffic based on IP  
+**Correct Answer:** Connects different networks and forwards packets based on IP addresses; also acts as a gateway.  
+**Result:** ✅ Correct
+
+---
+
+### 14. Name three common switch features found in managed switches.
+**Your Answer:** Can change to Layer 3, transfer data  
+**Correct Answer:** Common features: VLAN support, port security, QoS, SNMP monitoring, Spanning Tree Protocol (STP), link aggregation, etc.  
+**Result:** ❌ Incorrect (your answer didn't list actual managed switch features)
+
+---
+
+### 15. What command would you use in Linux to perform a DNS lookup and see detailed information?
+**Your Answer:** nslookup  
+**Correct Answer:** `dig` (Domain Information Groper) gives more detailed output; `nslookup` is also acceptable but `dig` is preferred for detail.  
+**Result:** ⚠️ Partially Correct
+
+---
+
+### 16. What is the difference between IPv4 and IPv6 address lengths?
+**Your Answer:** IPv4 = 32 bits, IPv6 = 128 bits  
+**Correct Answer:** IPv4 uses 32-bit addresses, IPv6 uses 128-bit addresses.  
+**Result:** ✅ Correct
+
+---
+
+### 17. What does the `curl -I` command do?
+**Your Answer:** Checks connectivity and takes header and footer  
+**Correct Answer:** `curl -I` fetches only the HTTP response headers from a URL (no body). It tests the web server's response, not general connectivity.  
+**Result:** ⚠️ Partially Correct
+
+---
+
+### 18. In the OSI model, how many layers are there?
+**Your Answer:** 7  
+**Correct Answer:** 7 layers: Physical, Data Link, Network, Transport, Session, Presentation, Application.  
+**Result:** ✅ Correct
+
+---
+
+### 19. What is the role of ARP (Address Resolution Protocol)?
+**Your Answer:** (skipped)  
+**Correct Answer:** ARP maps an IP address to a MAC address on a local network, enabling communication at the data link layer.  
+**Result:** ❌ Not Answered
+
+---
+
+### 20. If a user can ping 8.8.8.8 but cannot ping google.com, what is the likely problem?
+**Your Answer:** DNS problem  
+**Correct Answer:** DNS failure – the domain name cannot be resolved to an IP address.  
+**Result:** ✅ Correct
+
+---
+
+## 📊 Final Score
+
+- Fully Correct: 11  
+- Partially Correct: 5  
+- Incorrect: 3  
+- Not Answered: 1  
+
+**Estimated Score: 16/20 (80%)**
+
+---
+
+## 🎯 Areas to Review
+
+- Hub vs Switch
+- Managed switch features
+- CIDR notation clarity
+- ARP (missed)
+- `curl -I` specifics
