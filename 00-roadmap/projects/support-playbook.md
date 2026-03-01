@@ -2,13 +2,16 @@
 
 
 ## FORMAT:
-## Issue: [Short descriptive name]
+
+**Issue:** [Short descriptive name]
 **Symptoms:** [What the user experiences]
 **Steps to Troubleshoot:**
+
 1. [Command or action]
 2. [Next step based on result]
 3. [Continue until root cause found]
 **Resolution:** [What fixes the issue]
+
 **When to Escalate:** [When to pass to higher‑level support]
 
 
