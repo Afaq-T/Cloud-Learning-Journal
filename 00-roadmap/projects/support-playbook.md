@@ -1,9 +1,8 @@
-## Issue: [Short descriptive name]
-
 # IT Support Playbook
 
 
 ## FORMAT:
+## Issue: [Short descriptive name]
 **Symptoms:** [What the user experiences]
 **Steps to Troubleshoot:**
 1. [Command or action]
