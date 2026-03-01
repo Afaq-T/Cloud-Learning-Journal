@@ -113,3 +113,69 @@
 5. Verify printer is not in power save mode
 **Resolution:** Printer back online
 **When to Escalate:** If printer is on but unreachable, may need network team to check switch port/VLAN
+
+---
+
+## Issue: No Ethernet Connection (Cable Unplugged or Faulty)
+**Symptoms:** User reports no network access; Ethernet icon shows a red "X" or "Unplugged"; link lights on the network card or switch port are off.
+**Steps to Troubleshoot:**
+1. Check physical connection – ensure the Ethernet cable is securely plugged into both the computer and the wall jack/switch.
+2. Try a different cable – if available, swap with a known‑good cable.
+3. Check link lights – on the computer’s Ethernet port and on the switch port (if accessible). No light indicates a physical layer issue.
+4. On Windows, run `ipconfig /all` – if the adapter shows "Media disconnected", the problem is physical.
+5. If using a docking station or USB adapter, try re‑seating it or connecting directly to the laptop’s built‑in port.
+6. Restart the computer – sometimes the network adapter driver gets stuck.
+7. If the issue persists on multiple cables and ports, the network adapter may be faulty. Try updating the driver or using a different device to test the wall jack.
+**Resolution:** Re‑establish physical connectivity – either by fixing the cable, re‑seating connections, or replacing faulty hardware.
+**When to Escalate:** If the wall jack itself is dead (tested with another device) or if the network adapter is confirmed faulty (requires hardware replacement), escalate to facilities or IT hardware team.
+
+---
+
+## Issue: Wi‑Fi Network Not Visible in List
+**Symptoms:** User cannot see their home or office Wi‑Fi network in the list of available networks, even though other networks appear.
+**Steps to Troubleshoot:**
+1. Verify Wi‑Fi is turned on – check the physical switch (on laptops) or the software toggle in Windows (Action Center > Wi‑Fi).
+2. Run the networking troubleshooter: right‑click the network icon → Troubleshoot problems.
+3. Check if the hidden network is set to not broadcast its SSID. If you know the SSID, manually add the network:  
+   *Settings → Network & Internet → Wi‑Fi → Manage known networks → Add a new network* – enter the exact SSID and security type.
+4. Restart the Wi‑Fi adapter:  
+   `netsh interface set interface name="Wi‑Fi" admin=disable`  
+   `netsh interface set interface name="Wi‑Fi" admin=enable`
+5. Check for interference – if the network is on a 5 GHz band and the client is far from the router, try moving closer.
+6. Update the Wi‑Fi driver – Device Manager → Network adapters → right‑click Wi‑Fi adapter → Update driver.
+7. Check if the router is broadcasting the SSID – log into the router and ensure "SSID Broadcast" is enabled.
+**Resolution:** Wi‑Fi network becomes visible again.
+**When to Escalate:** If the router settings are correct but the network still doesn't appear, the router may need replacement; involve the network team.
+
+---
+
+## Issue: IP Address Conflict
+**Symptoms:** User gets a pop‑up "Windows has detected an IP address conflict"; they have no network access or intermittent connectivity.
+**Steps to Troubleshoot:**
+1. Open Command Prompt as administrator and run `ipconfig /release` then `ipconfig /renew`.
+2. If the conflict persists, run `ipconfig /all` and note the IP address that is conflicting.
+3. On the network, find the device that is using that same IP. You can use `arp -a` to see recent MAC‑to‑IP mappings.
+4. Check the DHCP server (usually the router) to see if there is a static reservation that conflicts with the dynamic pool.
+5. If the user has a static IP assigned, change it to a different unused IP or switch to DHCP.
+6. Clear the ARP cache on the local machine: `arp -d *` (admin prompt).
+7. Restart both the computer and the router to clear any stuck leases.
+**Resolution:** Each device gets a unique IP address.
+**When to Escalate:** If the conflict is caused by misconfigured network infrastructure (e.g., rogue DHCP server), escalate to the network team.
+
+---
+
+## Issue: Network Drive Mapping Fails
+**Symptoms:** User tries to map a network drive (e.g., `\\server\share`) but gets an error like "Network path not found" or "Access denied".
+**Steps to Troubleshoot:**
+1. Verify the user can reach the server by IP: `ping <server‑IP>`. If ping fails, the server may be down or unreachable.
+2. If ping works, try accessing the share by IP instead of name: `\\<server‑IP>\share`. If that works, it’s a DNS or name resolution issue.
+3. Check if the user has permissions to the share – verify with the server administrator or check share/NTFS permissions.
+4. On the client, ensure the Workstation service is running:  
+   `net start workstation`
+5. Check if the required ports are open (SMB uses 445). Test with:  
+   `Test-NetConnection <server> -Port 445` (PowerShell).
+6. If the server is in a different domain or workgroup, ensure credentials are correct. Use `net use Z: \\server\share /user:DOMAIN\username *` to map with explicit credentials.
+7. Check Windows Firewall on both client and server to ensure File and Printer Sharing is allowed.
+8. Restart the "TCP/IP NetBIOS Helper" service if NetBIOS is required.
+**Resolution:** User successfully maps the network drive.
+**When to Escalate:** If the server itself is unreachable or permissions need to be changed by the server admin, escalate to the appropriate team.
