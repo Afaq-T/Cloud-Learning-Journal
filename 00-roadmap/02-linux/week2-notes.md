@@ -1,4 +1,4 @@
-```markdown
+
 # Week 2: Linux Basics – My Notes
 
 **Source:** NetworkChuck's "Linux for Hackers" series (Episodes 1-4)
@@ -15,7 +15,7 @@ Think of the Linux filesystem like a tree. The very top is the root, represented
 - **`pwd` (Print Working Directory):** Tells you exactly where you are in the filesystem tree. It prints your current location.
   ```bash
   pwd
-  ```
+
   *Example output:* `/home/your-username`
 
 - **`ls` (List):** Shows what's inside your current folder – all files and subfolders.
