@@ -1,7 +1,4 @@
-# AZ-900 Azure Fundamentals Notes
-**My Name:** Afaq Tahir  
-**Course:** Microsoft Azure Fundamentals (AZ-900)  
-**Started:** March 2026  
+# AZ-900 Azure Fundamentals Notes 
 
 ---
 
@@ -236,6 +233,13 @@ TENANT (Your company's identity — like your company name)
 
 ---
 
+## Key Analogies To Remember
+
+- CapEx vs OpEx = Buying a car vs Uber
+- SLA: 99.9% = 43min, 99.95% = 21min, 99.99% = 4min downtime/month
+- Policy = Security guard (blocks), RBAC = Key card (who), Advisor = Consultant (suggests)
+- Reserved = Bus pass, Pay-As-You-Go = Taxi, Spot = Standby flight
+
 ## MY RESOURCES
 - 📺 John Savill Full Course: https://youtube.com/playlist?list=PLlVtbbG169nED0_vMEniWBQjSoxTsBYS3
 - ⚡ Study Cram (watch before exam): https://youtu.be/tQp1YkB2Tgs
@@ -243,4 +247,4 @@ TENANT (Your company's identity — like your company name)
 - 🖥️ Microsoft Learn Labs: https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/
 
 ---
-*Notes by Afaq Tahir | BS IT Final Semester | Gordon College Rawalpindi*
+
