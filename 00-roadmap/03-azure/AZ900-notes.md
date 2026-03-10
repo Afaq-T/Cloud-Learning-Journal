@@ -248,3 +248,113 @@ TENANT (Your company's identity — like your company name)
 
 ---
 
+# Microsoft Learning Path __ Week 3
+
+---
+
+## Module 1: Describe Cloud Computing
+
+**Key Concepts:**
+- Cloud computing = using servers over the internet instead of owning your own hardware
+- Shared Responsibility Model: Microsoft manages physical infrastructure, you manage your data and applications
+- Cloud models: Public (Azure, AWS), Private (your own data center), Hybrid (both combined)
+- Consumption-based pricing = you pay only for what you use (OpEx, not CapEx)
+- CapEx = buying hardware upfront. OpEx = paying monthly as you use
+
+**Explain to a friend:** Instead of buying expensive servers for your office, you rent Microsoft's computers over the internet and only pay for what you actually use. It's like paying for electricity instead of buying your own power plant.
+
+**Exam Q:** What is the consumption-based model in cloud computing?
+**Answer:** It means you only pay for the resources you use, with no upfront cost. If you use a VM for 5 hours, you pay for 5 hours only. This is OpEx (operational expenditure) instead of CapEx (capital expenditure).
+
+---
+
+## Module 2: Describe the Benefits of Using Cloud Services
+
+**Key Concepts:**
+- High Availability: service stays running with minimal downtime (guaranteed by SLA percentage)
+- Scalability: ability to increase or decrease resources based on demand
+- Reliability: system recovers from failures automatically using redundancy
+- Predictability: consistent performance and cost forecasting
+- Security: cloud provider handles physical security, you handle your data and access
+- Governance: tools to enforce policies and compliance rules across resources
+- Manageability: easy to deploy, monitor, and manage resources through portal or CLI
+
+**Explain to a friend:** Cloud gives you a service that stays online even when something breaks, automatically grows when more users come, and costs roughly what you expect each month. You get all of this without hiring a team to manage physical servers.
+
+**Exam Q:** What is the difference between scalability and elasticity?
+**Answer:** Scalability means you can increase resources to handle more load. Elasticity means the system automatically scales up AND down based on real-time demand, so you are never paying for resources you are not using.
+
+---
+
+## Module 3: Describe Cloud Service Types
+
+**Key Concepts:**
+- IaaS (Infrastructure as a Service): you rent VMs and networks, you manage OS and apps. Example: Azure Virtual Machines
+- PaaS (Platform as a Service): you deploy your app, Azure manages infrastructure. Example: Azure App Service
+- SaaS (Software as a Service): you just use the finished application. Example: Microsoft 365, Gmail
+- Shared Responsibility shifts with each model: IaaS = most customer responsibility. SaaS = least customer responsibility
+- IaaS gives most control. SaaS gives least control but least management
+
+**Explain to a friend:** IaaS is like renting an empty apartment — you bring your own furniture and manage everything inside. PaaS is like a furnished apartment — the structure is ready, you just move in your stuff. SaaS is like staying in a hotel — everything is managed for you, you just use it.
+
+**Exam Q:** A developer wants to host a web app without managing servers or OS. Which service model should they use?
+**Answer:** PaaS — specifically Azure App Service. The developer only deploys their code and Azure manages all the underlying infrastructure.
+
+---
+
+## Module 4: Describe the Core Architectural Components of Azure
+
+**Key Concepts:**
+- Tenant: your organization's identity in Entra ID — the top of the hierarchy
+- Subscription: billing container — all costs are tracked here
+- Resource Group: logical folder for organizing related resources
+- Resource: the actual thing you create — VM, storage account, VNet, etc.
+- Hierarchy top to bottom: Tenant → Subscription → Resource Group → Resource
+- Regions: physical locations around the world (East US, West Europe, Southeast Asia)
+- Availability Zones: separate physical data centers within one region — for redundancy
+- Deleting a Resource Group deletes ALL resources inside it
+
+**Explain to a friend:** Azure is organized like a company. The Tenant is the company itself. Subscriptions are departments with their own budgets. Resource Groups are project folders inside each department. Resources are the actual tools and files inside those folders.
+
+**Exam Q:** What happens when you delete a Resource Group?
+**Answer:** All resources inside it are permanently deleted. This is why Resource Locks exist — to prevent accidental deletion of critical Resource Groups.
+
+---
+
+## Module 5: Describe Azure Compute and Networking Services
+
+**Key Concepts:**
+- Azure Virtual Machines: IaaS compute — full control over OS and software
+- Azure App Service: PaaS — deploy web apps, APIs without managing servers
+- Azure Container Instances: run containers without managing VMs
+- Azure Kubernetes Service (AKS): manage containerized apps at scale
+- Azure Functions: serverless compute — run code only when triggered, pay per execution
+- VNet (Virtual Network): private network inside Azure — resources communicate securely here
+- VPN Gateway: connects on-premises network to Azure VNet over encrypted tunnel
+- ExpressRoute: private dedicated connection from on-premises to Azure (not over public internet)
+- Azure DNS: hosts DNS domains and resolves names to IP addresses
+
+**Explain to a friend:** Azure gives you different ways to run your applications depending on how much control you need. VMs give you full control like your own computer. App Service handles the server for you. Functions run your code only when needed. All of these sit inside a VNet — Azure's version of your office private network.
+
+**Exam Q:** What is the difference between a VPN Gateway and ExpressRoute?
+**Answer:** VPN Gateway connects your on-premises network to Azure over the public internet using encryption. ExpressRoute is a private dedicated physical connection that does not go through the public internet — it is faster, more reliable, and more secure but costs more.
+
+---
+
+## Quick Reference — All 5 Modules Summary
+
+| Service Model | You Manage | Provider Manages | Example |
+|---|---|---|---|
+| IaaS | OS, Apps, Data | Hardware, Network, Virtualization | Azure VMs |
+| PaaS | Apps, Data | Everything else | Azure App Service |
+| SaaS | Data only | Everything | Microsoft 365 |
+
+| Azure Component | What It Is |
+|---|---|
+| Tenant | Organization's identity in Entra ID |
+| Subscription | Billing container |
+| Resource Group | Logical folder for resources |
+| Resource | Actual thing created (VM, storage, etc.) |
+| Region | Physical location of Azure data centers |
+| Availability Zone | Separate data center within one region |
+
