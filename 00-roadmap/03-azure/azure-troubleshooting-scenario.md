@@ -1,4 +1,4 @@
-# Azure Troubleshooting Scenarios — Week 3
+# Azure Troubleshooting Scenarios
 
 ---
 
