@@ -1,7 +1,4 @@
 # Entra ID & Identity Management Notes — Week 4 Monday
-**Author: Afaq Tahir | Gordon College Rawalpindi | BS Information Technology**
-**Week 4 Quiz Score: 93% (28/30)**
-
 ---
 
 ## Module 1: What is Microsoft Entra ID?
@@ -254,9 +251,3 @@ A: Two steps — First, issue a Temporary Access Pass so they can sign in immedi
 | Named Locations | ⚠️ Review |
 | Identity Protection | ⚠️ Review |
 
-## Week 4 Monday Quiz Score: 28/30 — 93% 🎉
-
-### 3 Things to Remember
-1. Creating a new employee = Create user account FIRST → Add to group → Group has role
-2. Object ID = unique identifier for a user account in Entra ID
-3. Adding user to a group = they inherit ALL group permissions immediately
