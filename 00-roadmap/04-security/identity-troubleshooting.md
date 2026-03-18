@@ -1,7 +1,4 @@
 # Identity Troubleshooting Scenarios — Week 4 Wednesday
-**Author: Afaq Tahir | Gordon College Rawalpindi | BS Information Technology**
-**File location: 04-security/identity-troubleshooting.md**
-
 ---
 
 ## Scenario 1: User Gets Access Denied on a Resource
