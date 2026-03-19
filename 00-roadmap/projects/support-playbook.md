@@ -182,3 +182,103 @@
 8. Restart the "TCP/IP NetBIOS Helper" service if NetBIOS is required.
 **Resolution:** User successfully maps the network drive.
 **When to Escalate:** If the server itself is unreachable or permissions need to be changed by the server admin, escalate to the appropriate team.
+
+---
+
+## Section: Identity & Access Management (IAM)
+
+---
+
+## Issue: User Gets Access Denied on a Resource
+
+**Symptoms:** User reports "Access Denied" or "You do not have permission" when opening an Azure resource. Manager confirms they should have access.
+
+**Steps to Troubleshoot:**
+1. Go to the resource in Azure portal → click **Access Control (IAM)** → **Role Assignments** tab
+2. Look for the user directly — if not listed, check if they are in any groups that have role assignments
+3. Check the **scope** of the role — a role assigned to Resource Group A does not apply to Resource Group B
+4. Click **Deny assignments** tab — check if a Deny assignment exists on the resource
+5. Confirm the user is signed in with the correct account (work vs personal Microsoft account)
+6. Check if the user account is enabled in Entra ID → Users → check account status
+
+**Resolution:** If role missing — assign appropriate role (Reader or Contributor) at the correct scope. If Deny assignment exists — contact policy owner for exception. If wrong account — guide user to sign in with work account.
+
+**When to Escalate:** Escalate if Deny assignment needs removal (policy owner approval required). Escalate if issue affects many users — may be a policy change affecting everyone.
+
+---
+
+## Issue: MFA Lockout — User Cannot Sign In
+
+**Symptoms:** User cannot sign in because MFA is required but their phone is lost, broken, or inaccessible.
+
+**Steps to Troubleshoot:**
+1. Verify the user's identity through secondary method (manager confirmation, HR records)
+2. Go to **Entra ID** → **Users** → find the user → click **Authentication Methods**
+3. Click **+ Add authentication method** → select **Temporary Access Pass**
+4. Set duration (recommend 1 hour) → click Add
+5. Give the TAP code to the user through a secure channel (phone call — not email)
+6. User signs in with TAP → immediately goes to aka.ms/mysecurityinfo → registers new MFA device
+7. TAP expires automatically after the set time
+
+**Resolution:** Temporary Access Pass restores immediate access without compromising security. After new device is registered, user proceeds with normal MFA.
+
+**When to Escalate:** Never issue a TAP without verifying identity first. Escalate if user says they never set up MFA but system requires it — may be a policy enforcement issue.
+
+---
+
+## Issue: User Has Wrong Permissions — Can Modify When Should Only View
+
+**Symptoms:** A user is accidentally modifying or deleting resources. Investigation shows they should only be able to view, not change anything.
+
+**Steps to Troubleshoot:**
+1. Go to the resource group → **Access Control (IAM)** → **Role Assignments**
+2. Find the user or their group — note the current role (likely Contributor)
+3. Click three dots next to the assignment → **Remove** → confirm removal
+4. Click **Add** → **Add role assignment** → select **Reader**
+5. Assign Reader to the user's group (not directly to the individual user)
+6. Verify in Role Assignments tab that Reader is assigned and Contributor is removed
+7. Apply a **Delete Resource Lock** on any critical resources for extra protection
+
+**Resolution:** Change Contributor to Reader. Add Delete Resource Lock on production resources so even Contributor cannot accidentally delete them.
+
+**When to Escalate:** Escalate if resources were already deleted — may require backup restoration. Escalate to management if wrong permissions were assigned deliberately.
+
+---
+
+## Issue: Guest User Cannot Access Shared Resources
+
+**Symptoms:** A partner company consultant accepted an invitation email but cannot see any Azure resources or shared content.
+
+**Steps to Troubleshoot:**
+1. Go to **Entra ID** → **External Identities** → find the guest user
+2. Check their **Status** — must show **Accepted** not **Pending**
+3. If Pending — resend the invitation. Guest must accept before any access works
+4. Once Accepted — go to the specific resource → **Access Control (IAM)** → assign Reader role to the guest user
+5. Check if any **Conditional Access policies** block external users (device compliance, location restrictions)
+6. Guide guest to sign in at portal.azure.com using their own organization's credentials
+
+**Resolution:** Resend invitation if Pending. Assign Reader role on specific resources needed. Create Conditional Access exception if policy is blocking them.
+
+**When to Escalate:** Escalate if Conditional Access policy needs modification (security team approval). Escalate if guest needs access beyond Reader (management approval for external user privileges).
+
+---
+
+## Issue: New Employee Needs Access to Multiple Resources
+
+**Symptoms:** New employee joins and needs immediate access to multiple resource groups and applications from day one.
+
+**Steps to Troubleshoot:**
+1. Confirm new employee details with HR — name, email, department, start date
+2. Create **user account** in Entra ID → Users → New user → set temporary password
+3. Find the appropriate **security group** for their department (e.g. grp-it-team)
+4. Add new user to the group → Members → Add members → search and select
+5. Verify the group already has correct role assignments on the needed resource groups
+6. If group lacks access to a needed resource — add role assignment to the group (never to the individual)
+7. Send temporary credentials through secure channel (through manager — not email)
+8. Confirm user can sign in and access resources on their first day
+
+**Resolution:** Group membership gives instant access to all resources the group has. No individual role assignments needed. When they leave — remove from group and disable account immediately.
+
+**When to Escalate:** Escalate if new employee needs Owner or higher access (management approval required). Escalate if no appropriate group exists and one needs to be created (security team involvement).
+
+---
