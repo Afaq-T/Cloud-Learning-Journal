@@ -8,8 +8,8 @@ I am a BS Information Technology student based in Rawalpindi, Pakistan, currentl
 
 My background covers Microsoft Azure fundamentals, Linux system administration, enterprise networking, identity and access management, and IT support workflows. Everything in this repository has been built, tested, and documented by me — not copied.
 
-**LinkedIn:** [www.linkedin.com/in/afaq-tahir-436495371]
-**Email:** [afaqpk2024@gmail.com]
+**LinkedIn:** www.linkedin.com/in/afaq-tahir-436495371
+**Email:** afaqpk2024@gmail.com
 **Portfolio:** [afaqt.me](https://afaqt.me)
 
 ---
@@ -73,5 +73,5 @@ The portfolio shows my notes, lab diagrams, certifications progress, and weekly 
 
 Open to Junior Cloud Support, NOC Engineer, and IT Support Engineer opportunities in Pakistan.
 
-**LinkedIn:** [www.linkedin.com/in/afaq-tahir-436495371]
+**LinkedIn:** www.linkedin.com/in/afaq-tahir-436495371
 **Email:** afaqpk2024@gmail.com
