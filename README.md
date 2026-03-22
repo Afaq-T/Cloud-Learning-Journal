@@ -73,5 +73,5 @@ The portfolio shows my notes, lab diagrams, certifications progress, and weekly 
 
 Open to Junior Cloud Support, NOC Engineer, and IT Support Engineer opportunities in Pakistan.
 
-**LinkedIn:** [Add your LinkedIn URL here]
-**Email:** [Add your email here]
+**LinkedIn:** [www.linkedin.com/in/afaq-tahir-436495371]
+**Email:** afaqpk2024@gmail.com
