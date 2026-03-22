@@ -191,94 +191,96 @@
 
 ## Issue: User Gets Access Denied on a Resource
 
-**Symptoms:** User reports "Access Denied" or "You do not have permission" when opening an Azure resource. Manager confirms they should have access.
+**Symptoms:** User reports Access Denied when opening an Azure resource. Manager confirms they should have access.
 
 **Steps to Troubleshoot:**
-1. Go to the resource in Azure portal → click **Access Control (IAM)** → **Role Assignments** tab
-2. Look for the user directly — if not listed, check if they are in any groups that have role assignments
-3. Check the **scope** of the role — a role assigned to Resource Group A does not apply to Resource Group B
-4. Click **Deny assignments** tab — check if a Deny assignment exists on the resource
-5. Confirm the user is signed in with the correct account (work vs personal Microsoft account)
-6. Check if the user account is enabled in Entra ID → Users → check account status
+1. Go to the resource → click **Access Control (IAM)** → **Role Assignments** tab
+2. Look for the user — if not listed, check if they are in any groups that have role assignments
+3. Check the **scope** — role on Resource Group A does not apply to Resource Group B
+4. Click **Deny assignments** tab — check if a Deny assignment exists
+5. Confirm user is signed in with correct account (work vs personal Microsoft account)
+6. Check account is enabled in Entra ID → Users → check status
 
-**Resolution:** If role missing — assign appropriate role (Reader or Contributor) at the correct scope. If Deny assignment exists — contact policy owner for exception. If wrong account — guide user to sign in with work account.
+**Resolution:** Assign correct role at correct scope. If Deny assignment exists — contact policy owner for exception.
 
-**When to Escalate:** Escalate if Deny assignment needs removal (policy owner approval required). Escalate if issue affects many users — may be a policy change affecting everyone.
+**When to Escalate:** Deny assignment needs removal (policy owner approval). Issue affects many users.
 
 ---
 
 ## Issue: MFA Lockout — User Cannot Sign In
 
-**Symptoms:** User cannot sign in because MFA is required but their phone is lost, broken, or inaccessible.
+**Symptoms:** User cannot sign in because MFA required but phone is lost, broken, or inaccessible.
 
 **Steps to Troubleshoot:**
-1. Verify the user's identity through secondary method (manager confirmation, HR records)
-2. Go to **Entra ID** → **Users** → find the user → click **Authentication Methods**
+1. Verify user identity through manager confirmation or HR records
+2. Go to **Entra ID** → **Users** → find user → click **Authentication Methods**
 3. Click **+ Add authentication method** → select **Temporary Access Pass**
-4. Set duration (recommend 1 hour) → click Add
-5. Give the TAP code to the user through a secure channel (phone call — not email)
-6. User signs in with TAP → immediately goes to aka.ms/mysecurityinfo → registers new MFA device
-7. TAP expires automatically after the set time
+4. Set duration (1 hour) → click Add
+5. Give TAP code to user through secure channel — phone call only, never email
+6. User signs in with TAP → goes to aka.ms/mysecurityinfo → registers new MFA device
+7. TAP expires automatically
 
-**Resolution:** Temporary Access Pass restores immediate access without compromising security. After new device is registered, user proceeds with normal MFA.
+**Resolution:** Temporary Access Pass restores access without compromising security.
 
-**When to Escalate:** Never issue a TAP without verifying identity first. Escalate if user says they never set up MFA but system requires it — may be a policy enforcement issue.
+**When to Escalate:** Cannot verify user identity — never issue TAP without confirmation. User says they never set up MFA but system requires it.
 
 ---
 
-## Issue: User Has Wrong Permissions — Can Modify When Should Only View
+## Issue: User Has Wrong Permissions
 
-**Symptoms:** A user is accidentally modifying or deleting resources. Investigation shows they should only be able to view, not change anything.
+**Symptoms:** User is modifying or deleting resources but should only be able to view them.
 
 **Steps to Troubleshoot:**
-1. Go to the resource group → **Access Control (IAM)** → **Role Assignments**
-2. Find the user or their group — note the current role (likely Contributor)
-3. Click three dots next to the assignment → **Remove** → confirm removal
+1. Go to resource group → **Access Control (IAM)** → **Role Assignments**
+2. Find user or group — note current role (likely Contributor)
+3. Click three dots → **Remove** → confirm
 4. Click **Add** → **Add role assignment** → select **Reader**
-5. Assign Reader to the user's group (not directly to the individual user)
-6. Verify in Role Assignments tab that Reader is assigned and Contributor is removed
-7. Apply a **Delete Resource Lock** on any critical resources for extra protection
+5. Assign Reader to the group not the individual user
+6. Verify Reader is assigned and Contributor is removed
+7. Apply **Delete Resource Lock** on critical resources for extra protection
 
-**Resolution:** Change Contributor to Reader. Add Delete Resource Lock on production resources so even Contributor cannot accidentally delete them.
+**Resolution:** Change Contributor to Reader. Add Delete Resource Lock on production resources.
 
-**When to Escalate:** Escalate if resources were already deleted — may require backup restoration. Escalate to management if wrong permissions were assigned deliberately.
+**When to Escalate:** Resources already deleted — may need backup restoration.
 
 ---
 
 ## Issue: Guest User Cannot Access Shared Resources
 
-**Symptoms:** A partner company consultant accepted an invitation email but cannot see any Azure resources or shared content.
+**Symptoms:** Partner company consultant accepted invitation but cannot see any Azure resources.
 
 **Steps to Troubleshoot:**
-1. Go to **Entra ID** → **External Identities** → find the guest user
-2. Check their **Status** — must show **Accepted** not **Pending**
-3. If Pending — resend the invitation. Guest must accept before any access works
-4. Once Accepted — go to the specific resource → **Access Control (IAM)** → assign Reader role to the guest user
-5. Check if any **Conditional Access policies** block external users (device compliance, location restrictions)
-6. Guide guest to sign in at portal.azure.com using their own organization's credentials
+1. Go to **Entra ID** → **External Identities** → find guest user
+2. Check **Status** — must show **Accepted** not **Pending**
+3. If Pending — resend invitation. Guest must accept before any access works
+4. Once Accepted — go to resource → **Access Control (IAM)** → assign Reader role
+5. Check if Conditional Access policies block external users
+6. Guide guest to sign in at portal.azure.com using their own organization credentials
 
-**Resolution:** Resend invitation if Pending. Assign Reader role on specific resources needed. Create Conditional Access exception if policy is blocking them.
+**Resolution:** Resend invitation if Pending. Assign Reader role on needed resources.
 
-**When to Escalate:** Escalate if Conditional Access policy needs modification (security team approval). Escalate if guest needs access beyond Reader (management approval for external user privileges).
+**When to Escalate:** Conditional Access policy needs modification (security team). Guest needs access beyond Reader (management approval).
 
 ---
 
 ## Issue: New Employee Needs Access to Multiple Resources
 
-**Symptoms:** New employee joins and needs immediate access to multiple resource groups and applications from day one.
+**Symptoms:** New employee joins and needs immediate access to multiple resource groups from day one.
 
 **Steps to Troubleshoot:**
-1. Confirm new employee details with HR — name, email, department, start date
+1. Confirm details with HR — name, email, department, start date
 2. Create **user account** in Entra ID → Users → New user → set temporary password
-3. Find the appropriate **security group** for their department (e.g. grp-it-team)
-4. Add new user to the group → Members → Add members → search and select
-5. Verify the group already has correct role assignments on the needed resource groups
-6. If group lacks access to a needed resource — add role assignment to the group (never to the individual)
-7. Send temporary credentials through secure channel (through manager — not email)
-8. Confirm user can sign in and access resources on their first day
+3. Find the appropriate **security group** for their department
+4. Add new user to group → Members → Add members
+5. Verify group has correct role assignments on needed resource groups
+6. If group lacks access — add role assignment to the group not the individual
+7. Send temporary credentials through manager — not email
+8. Confirm user can sign in and access resources on day one
 
-**Resolution:** Group membership gives instant access to all resources the group has. No individual role assignments needed. When they leave — remove from group and disable account immediately.
+**Resolution:** Group membership gives instant access to all group resources. When they leave — remove from group and disable account immediately.
 
-**When to Escalate:** Escalate if new employee needs Owner or higher access (management approval required). Escalate if no appropriate group exists and one needs to be created (security team involvement).
+**When to Escalate:** New employee needs Owner access (management approval). No appropriate group exists (security team involvement).
 
 ---
+
+*Support Playbook v1.0 — Covers Networking (8 procedures) + Identity/IAM (5 procedures) = 13 total procedures across 2 major categories. Azure and Linux procedures to be added in Weeks 5 and 6.*
